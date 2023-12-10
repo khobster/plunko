@@ -80,7 +80,7 @@ function copyToClipboard() {
 }
 
 function loadPlayersData() {
-    fetch('https://vanillafrosting.agency/wp-content/uploads/2023/12/data.json')
+    fetch('https://raw.githubusercontent.com/khobster/plunko/main/data.json')
         .then(response => response.json())
         .then(data => {
             playersData = data;
