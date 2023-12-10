@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+#topicsForm {
+    margin-bottom: 20px;
+}
+
+.topicInput {
+    padding: 5px;
+    font-family: 'Anton', sans-serif;
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.topicInput input {
+    color: white;
+    background: transparent;
+    font-family: 'Anton', sans-serif;
+    font-size: 24px;
+    padding: 5px;
+    border: 1px solid white;
+    display: block;
+    width: auto;
+    margin-bottom: 5px;
+}
+
+.topicInput input[name="topicDuration[]"] {
+    width: 100px; /* Width for duration input fields */
+}
+
+#playerQuestion {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+#playerName {
+    font-weight: bold; /* Bold */
+    font-size: 28px; /* Larger font size */
+}
+
+#collegeGuess {
+    width: 70%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#submitBtn {
+    background-color: pink;
+    color: #f8f8f8; /* Off-white text color */
+    text-transform: uppercase; /* Uppercase text */
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+#submitBtn:hover {
+    background-color: #ff69b4;
+}
+
+#result {
+    margin-top: 20px;
+    padding: 10px;
+    color: white; /* White text for visibility */
+    text-align: center; /* Center the text */
+    border-radius: 4px;
+}
+
+.correct {
+    background-color: green; /* Green background for correct answers */
+}
+
+.incorrect {
+    background-color: red; /* Red background for incorrect answers */
+}
+
+#shareSnippet {
+    margin-top: 20px;
+    padding: 10px;
+    color: #333; /* Dark text color for readability */
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid #4CAF50; /* Example border color */
+    border-radius: 4px;
+    background-color: #f8f8f8; /* Light background for visibility */
+}
+
+#copyButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: background-color 0.3s;
+    display: none; /* Initially hidden */
+}
+
+#copyButton:hover {
+    background-color: #45a049;
+}
