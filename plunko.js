@@ -56,7 +56,7 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement) {
         resultElement.className = 'correct';
         correctSound.play();
         if (correctStreak >= 3) {
-            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: https://www.vanillafrosting.agency/plunko`;
+            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: https://khobster.github.io/plunko`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
         }
