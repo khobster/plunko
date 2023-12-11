@@ -114,55 +114,53 @@
 .title-container {
     display: flex;
     align-items: center; /* This ensures vertical alignment */
-    /* ... other styles ... */
 }
 
 .tooltip {
-  display: inline-block;
-  background-color: pink;
-  color: white;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 25px;
-  font-size: 20px;
-  margin-left: 10px;
-  cursor: pointer;
-  vertical-align: middle;
+    display: inline-block;
+    background-color: pink;
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative; /* Relative positioning for the tooltip text */
 }
 
 .tooltip .tooltiptext {
-  visibility: hidden;
-  background-color: white; /* White background */
-  color: black; /* Black text */
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  top: 130%; /* Adjust if necessary to position below the '?' */
-  left: 50%;
-  transform: translateX(-50%); /* Center the tooltip */
-  white-space: nowrap;
+    visibility: hidden;
+    background-color: white; /* White background for the tooltip text */
+    color: black; /* Black text color */
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    top: 130%; /* Position below the '?' */
+    left: 50%;
+    transform: translateX(-50%); /* Center the tooltip horizontally */
+    white-space: nowrap;
 }
 
 .tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0.3s, opacity 0.3s ease-in-out;
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0.3s, opacity 0.3s ease-in-out;
 }
 
 @media only screen and (max-width: 600px) {
     /* Adjust styles for screens less than 600px wide */
     #app {
-        /* Example: Increase font size, adjust layout, etc. */
         font-size: 16px;
     }
     .game-image {
-        /* Adjust image size for smaller screens */
         width: 100%;
-        max-width: 400px; /* or whatever size fits well */
+        max-width: 400px; /* Adjust the max-width as needed for smaller screens */
     }
     /* Add more styles as needed for smaller screens */
 }
