@@ -52,7 +52,7 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement) {
         if (lastThreeCorrect.length > 3) {
             lastThreeCorrect.shift();
         }
-        resultElement.textContent = 'Correctamundo. Streak: ' + correctStreak;
+        resultElement.textContent = 'CORRECTAMUNDO. Streak: ' + correctStreak;
         resultElement.className = 'correct';
         correctSound.play();
         if (correctStreak >= 3) {
