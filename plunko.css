@@ -108,28 +108,35 @@
     background-color: #45a049;
 }
 
-/* Tooltip Styles */
 .tooltip {
-  position: relative;
   display: inline-block;
+  background-color: pink;
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 25px; /* Vertically center the emoji */
+  font-size: 20px;
+  margin-left: 10px; /* Spacing between the text and tooltip */
   cursor: pointer;
 }
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
+  width: 200px; /* Adjust width as needed */
   background-color: black;
   color: #fff;
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
-
+  
   /* Position the tooltip text */
   position: absolute;
   z-index: 1;
-  bottom: 100%;
+  bottom: 125%;
   left: 50%;
-  margin-left: -60px; /* Use half of the width (120px/2) to center the tooltip */
+  margin-left: -100px; /* Half of the width to center the tooltip */
 }
 
 .tooltip:hover .tooltiptext {
