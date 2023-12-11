@@ -111,6 +111,12 @@
     background-color: #45a049;
 }
 
+.title-container {
+    display: flex;
+    align-items: center; /* This ensures vertical alignment */
+    /* ... other styles ... */
+}
+
 .tooltip {
   display: inline-block;
   background-color: pink;
