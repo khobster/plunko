@@ -116,28 +116,30 @@
   height: 25px;
   border-radius: 50%;
   text-align: center;
-  line-height: 25px; /* Vertically center the emoji */
+  line-height: 25px;
   font-size: 20px;
-  margin-left: 10px; /* Spacing between the text and tooltip */
+  margin-left: 10px;
   cursor: pointer;
-  vertical-align: middle; /* Aligns the tooltip with the middle of the text */
+  vertical-align: middle;
 }
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  background-color: white;
-  color: black;
+  background-color: white; /* White background */
+  color: black; /* Black text */
   text-align: center;
   border-radius: 6px;
   padding: 5px;
   position: absolute;
   z-index: 1;
-  bottom: 150%; /* Adjust if necessary */
+  top: 130%; /* Adjust if necessary to position below the '?' */
   left: 50%;
-  margin-left: -60px; /* Adjust if necessary */
-  white-space: nowrap; /* Keeps the tooltip text on a single line */
+  transform: translateX(-50%); /* Center the tooltip */
+  white-space: nowrap;
 }
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+  opacity: 1;
+  transition: visibility 0.3s, opacity 0.3s ease-in-out;
 }
