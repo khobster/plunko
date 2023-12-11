@@ -75,13 +75,11 @@
 
 .correct {
     background-color: green; /* Green background for correct answers */
-    font-weight: bold;
     font-family: 'Anton', sans-serif;
 }
 
 .incorrect {
     background-color: red; /* Red background for incorrect answers */
-    font-weight: bold;
     font-family: 'Anton', sans-serif;
 }
 
