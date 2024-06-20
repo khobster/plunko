@@ -129,16 +129,32 @@ function showSuggestions(input) {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadPlayersData();
+
     document.getElementById('collegeGuess').addEventListener('input', (e) => {
         showSuggestions(e.target.value);
     });
+
     document.getElementById('submitBtn').addEventListener('click', function() {
         const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
         const playerName = document.getElementById('playerName').textContent;
         const player = playersData.find(p => p.name === playerName);
         let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
         updateStreakAndGenerateSnippet(isCorrect, playerName, document.getElementById('result'));
-        setTimeout(displayRandomPlayer, 5000); // Increase the timeout duration to 3000ms (3 seconds)
+        setTimeout(displayRandomPlayer, 3000); // Increase the timeout duration to 3000ms (3 seconds)
     });
+
     document.getElementById('copyButton').addEventListener('click', copyToClipboard);
+
+    // Tooltip handling for mobile
+    const tooltip = document.querySelector('.tooltip');
+    tooltip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        tooltip.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!tooltip.contains(e.target)) {
+            tooltip.classList.remove('active');
+        }
+    });
 });
