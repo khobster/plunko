@@ -105,8 +105,33 @@ function displayRandomPlayer() {
     }
 }
 
+function showSuggestions(input) {
+    const suggestionsContainer = document.getElementById('suggestions');
+    suggestionsContainer.innerHTML = '';
+    if (input.length === 0) {
+        return;
+    }
+    const suggestions = playersData
+        .map(player => player.college)
+        .filter(college => college && college.toLowerCase().includes(input.toLowerCase()))
+        .slice(0, 5); // Show up to 5 suggestions
+    suggestions.forEach(suggestion => {
+        const suggestionItem = document.createElement('div');
+        suggestionItem.textContent = suggestion;
+        suggestionItem.classList.add('suggestion-item');
+        suggestionItem.addEventListener('click', () => {
+            document.getElementById('collegeGuess').value = suggestion;
+            suggestionsContainer.innerHTML = '';
+        });
+        suggestionsContainer.appendChild(suggestionItem);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     loadPlayersData();
+    document.getElementById('collegeGuess').addEventListener('input', (e) => {
+        showSuggestions(e.target.value);
+    });
     document.getElementById('submitBtn').addEventListener('click', function() {
         const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
         const playerName = document.getElementById('playerName').textContent;
