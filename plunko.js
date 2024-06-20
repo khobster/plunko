@@ -74,6 +74,37 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement, ne
     setTimeout(nextPlayerCallback, 3000); // Show next player after a delay
 }
 
+function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement, nextPlayerCallback, playerIndex, totalPlayers) {
+    if (isCorrect) {
+        correctStreak++;
+        lastThreeCorrect.push(playerName);
+        if (lastThreeCorrect.length > 3) {
+            lastThreeCorrect.shift();
+        }
+        if (correctStreak === totalPlayers) {
+            resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
+            const encodedPlayers = encodeURIComponent(lastThreeCorrect.join(','));
+            const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
+            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
+            document.getElementById('shareSnippet').innerHTML = shareText;
+            document.getElementById('copyButton').style.display = 'block';
+            correctStreak = 0; // Reset the correct streak after achieving PLUNKO
+            lastThreeCorrect = []; // Clear the list of last three correct players after achieving PLUNKO
+        } else {
+            nextPlayerCallback(playerIndex + 1);
+        }
+        resultElement.className = 'correct';
+        correctSound.play();
+    } else {
+        correctStreak = 0;
+        lastThreeCorrect = [];
+        resultElement.textContent = 'Wrong answer. Try again!';
+        resultElement.className = 'incorrect';
+        wrongSound.play();
+        endURLChallenge(false);
+    }
+}
+
 function copyToClipboard() {
     const textToCopy = document.getElementById('shareSnippet').textContent;
     navigator.clipboard.writeText(textToCopy).then(() => {
@@ -129,40 +160,33 @@ function startURLChallenge(playerNames) {
     correctStreak = 0; // Reset correct streak when starting a shared link sequence
     lastThreeCorrect = []; // Clear last three correct players
 
-    function nextPlayer() {
-        if (playerIndex < playerNames.length) {
-            const playerName = playerNames[playerIndex];
+    function nextPlayer(index) {
+        if (index < playerNames.length) {
+            const playerName = playerNames[index];
             const player = playersData.find(p => p.name === playerName);
             if (player) {
                 displayPlayer(player);
                 document.getElementById('submitBtn').onclick = function() {
                     const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
                     let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
-                    if (isCorrect) {
-                        playerIndex++; // Increment playerIndex if the answer is correct
-                        updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'), nextPlayer);
-                    } else {
-                        endURLChallenge(false);
-                    }
+                    updateStreakAndGenerateSnippetURL(isCorrect, player.name, document.getElementById('result'), nextPlayer, index, playerNames.length);
                 };
             } else {
-                playerIndex++; // Skip to the next player if not found
-                nextPlayer();
+                nextPlayer(index + 1); // Skip to the next player if not found
             }
         } else {
             endURLChallenge(true);
         }
     }
-    nextPlayer();
+    nextPlayer(playerIndex);
 }
 
 function endURLChallenge(success) {
+    const resultElement = document.getElementById('result');
     if (success) {
-        const resultElement = document.getElementById('result');
         resultElement.innerHTML = "<span class='kaboom'>You got all 3 correct! Share your success!</span>";
         resultElement.className = 'correct';
     } else {
-        const resultElement = document.getElementById('result');
         resultElement.innerHTML = "You didn't get all 3 correct. Better luck next time!";
         resultElement.className = 'incorrect';
     }
