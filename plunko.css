@@ -21,12 +21,13 @@
     cursor: pointer;
     margin-left: 5px;
     font-size: 14px;
-    background: #ddd;
+    background: pink; /* Change this to match the button color */
     border-radius: 50%;
     width: 18px;
     height: 18px;
     line-height: 18px;
     text-align: center;
+    color: white; /* Ensure the question mark is visible */
 }
 
 .tooltip .tooltiptext {
