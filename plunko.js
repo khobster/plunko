@@ -111,10 +111,10 @@ function showSuggestions(input) {
     if (input.length === 0) {
         return;
     }
-    const suggestions = playersData
+    const suggestions = Array.from(new Set(playersData
         .map(player => player.college)
-        .filter(college => college && college.toLowerCase().includes(input.toLowerCase()))
-        .slice(0, 5); // Show up to 5 suggestions
+        .filter(college => college && college.toLowerCase().includes(input.toLowerCase()))))
+        .slice(0, 5); // Show up to 5 unique suggestions
     suggestions.forEach(suggestion => {
         const suggestionItem = document.createElement('div');
         suggestionItem.textContent = suggestion;
