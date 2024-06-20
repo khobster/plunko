@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const player = playersData.find(p => p.name === playerName);
         let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
         updateStreakAndGenerateSnippet(isCorrect, playerName, document.getElementById('result'));
-        setTimeout(displayRandomPlayer, 3000); // Increase the timeout duration to 3000ms (3 seconds)
+        setTimeout(displayRandomPlayer, 7000); // Increase the timeout duration to 3000ms (3 seconds)
     });
 
     document.getElementById('copyButton').addEventListener('click', copyToClipboard);
