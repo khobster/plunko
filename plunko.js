@@ -16,10 +16,8 @@ function isCloseMatch(guess, answer) {
     let simpleGuess = guess.trim().toLowerCase();
     let simpleAnswer = answer.trim().toLowerCase();
 
-    // Normalize the guess by removing punctuation and spaces for specific phrases
     let normalizedGuess = simpleGuess.replace(/[^a-zA-Z0-9]/g, '');
 
-    // List of phrases that are considered correct for players with no college information
     const noCollegePhrases = [
         "didntgotocollege",
         "didnotgotocollege",
@@ -32,12 +30,10 @@ function isCloseMatch(guess, answer) {
         "hedidnotgotocollege"
     ];
 
-    // Check if the guess matches any of the no college phrases and the player's college is empty
     if (noCollegePhrases.includes(normalizedGuess) && simpleAnswer === '') {
         return true;
     }
 
-    // Additional checks for specific cases (e.g., "UNC")
     if (simpleAnswer === 'unc' && (simpleGuess === 'north carolina' || simpleGuess === 'carolina')) {
         return true;
     }
@@ -52,13 +48,14 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement) {
         if (lastThreeCorrect.length > 3) {
             lastThreeCorrect.shift();
         }
-        resultElement.textContent = 'CORRECTAMUNDO. Streak: ' + correctStreak;
+        resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Now you need to get just two more to get a <span class='kaboom'>PLUNKO!</span>";
         resultElement.className = 'correct';
         correctSound.play();
         if (correctStreak >= 3) {
             let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: https://khobster.github.io/plunko`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
+            resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
         }
     } else {
         correctStreak = 0;
@@ -75,7 +72,7 @@ function copyToClipboard() {
         const copyButton = document.getElementById('copyButton');
         const originalText = copyButton.textContent;
         copyButton.textContent = 'Copied!';
-        setTimeout(() => copyButton.textContent = originalText, 2000); // Reset text after 2 seconds
+        setTimeout(() => copyButton.textContent = originalText, 2000);
     });
 }
 
