@@ -137,7 +137,10 @@ function displayRandomPlayer() {
     if (playersData.length > 0) {
         const randomIndex = Math.floor(Math.random() * playersData.length);
         const player = playersData[randomIndex];
-        displayPlayer(player);
+        document.getElementById('playerName').textContent = player.name;
+        document.getElementById('collegeGuess').value = '';
+        document.getElementById('result').textContent = '';
+        document.getElementById('result').className = '';
         document.getElementById('submitBtn').onclick = function() {
             const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
             let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
