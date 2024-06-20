@@ -41,7 +41,7 @@ function isCloseMatch(guess, answer) {
     return simpleAnswer.includes(simpleGuess);
 }
 
-function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement) {
+function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement, nextPlayerCallback) {
     if (isCorrect) {
         correctStreak++;
         lastThreeCorrect.push(playerName);
@@ -69,6 +69,7 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement) {
         resultElement.className = 'incorrect';
         wrongSound.play();
     }
+    setTimeout(nextPlayerCallback, 3000); // Show next player after a delay
 }
 
 function copyToClipboard() {
@@ -104,6 +105,11 @@ function displayRandomPlayer() {
         const randomIndex = Math.floor(Math.random() * playersData.length);
         const player = playersData[randomIndex];
         displayPlayer(player);
+        document.getElementById('submitBtn').onclick = function() {
+            const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
+            let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
+            updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'), displayRandomPlayer);
+        };
     } else {
         console.log("No data available");
     }
@@ -124,13 +130,12 @@ function displayPlayers(playerNames) {
             const player = playersData.find(p => p.name === playerName);
             if (player) {
                 displayPlayer(player);
-                playerIndex++;
                 document.getElementById('submitBtn').onclick = function() {
                     const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
                     let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
-                    updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'));
-                    setTimeout(nextPlayer, 3000); // Show next player after a delay
+                    updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'), nextPlayer);
                 };
+                playerIndex++;
             } else {
                 displayRandomPlayer();
             }
@@ -184,8 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const playerName = document.getElementById('playerName').textContent;
         const player = playersData.find(p => p.name === playerName);
         let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
-        updateStreakAndGenerateSnippet(isCorrect, playerName, document.getElementById('result'));
-        setTimeout(displayRandomPlayer, 3000); // Increase the timeout duration to 3000ms (3 seconds)
+        updateStreakAndGenerateSnippet(isCorrect, playerName, document.getElementById('result'), displayRandomPlayer);
     });
 
     document.getElementById('copyButton').addEventListener('click', copyToClipboard);
