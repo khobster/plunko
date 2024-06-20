@@ -61,7 +61,6 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
             let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
-            document.getElementById('returnButton').style.display = 'block';
             correctStreakStandard = 0; // Reset the correct streak after achieving PLUNKO
             lastThreeCorrectStandard = []; // Clear the list of last three correct players after achieving PLUNKO
         }
@@ -91,13 +90,15 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
             let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
-            document.getElementById('returnButton').style.display = 'block';
             correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
             lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
         } else {
-            nextPlayerCallback(playerIndex + 1);
+            resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Keep going!";
+            resultElement.className = 'correct';
+            setTimeout(() => {
+                nextPlayerCallback(playerIndex + 1);
+            }, 1000);
         }
-        resultElement.className = 'correct';
         correctSound.play();
     } else {
         correctStreakURL = 0;
@@ -204,9 +205,8 @@ function endURLChallenge(success) {
         resultElement.className = 'incorrect';
     }
     const shareText = success ? "I got all 3 correct on PLUNKO!" : "I couldn't get all 3 correct on PLUNKO. Can you?";
-    const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
-    const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-    let shareSnippet = `${shareText}<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNKO: ${shareLink}`;
+    const currentURL = window.location.href;
+    let shareSnippet = `${shareText}<br>Play PLUNKO: ${currentURL}`;
     document.getElementById('shareSnippet').innerHTML = shareSnippet;
     document.getElementById('copyButton').style.display = 'block';
     document.getElementById('returnButton').style.display = 'block';
@@ -252,13 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('copyButton').addEventListener('click', copyToClipboard);
-
     document.getElementById('returnButton').addEventListener('click', () => {
-        document.getElementById('shareSnippet').innerHTML = '';
-        document.getElementById('copyButton').style.display = 'none';
-        document.getElementById('returnButton').style.display = 'none';
-        document.getElementById('submitBtn').style.display = 'block';
-        startStandardPlay();
+        window.location.href = 'https://khobster.github.io/plunko';
     });
 
     // Tooltip handling for mobile
