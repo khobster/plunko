@@ -59,7 +59,6 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement, ne
             let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
-            document.getElementById('returnButton').style.display = 'block';
             correctStreak = 0; // Reset the correct streak after achieving PLUNKO
             lastThreeCorrect = []; // Clear the list of last three correct players after achieving PLUNKO
         }
@@ -68,14 +67,8 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement, ne
     } else {
         correctStreak = 0;
         lastThreeCorrect = [];
-        resultElement.innerHTML = "You didn't get all 3 correct. Better luck next time!";
+        resultElement.textContent = 'Wrong answer. Try again!';
         resultElement.className = 'incorrect';
-        const encodedPlayers = encodeURIComponent(lastThreeCorrect.join(','));
-        const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-        let shareText = `I couldn't get all 3 correct on PLUNKO. Can you?<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
-        document.getElementById('shareSnippet').innerHTML = shareText;
-        document.getElementById('copyButton').style.display = 'block';
-        document.getElementById('returnButton').style.display = 'block';
         wrongSound.play();
     }
     setTimeout(nextPlayerCallback, 3000); // Show next player after a delay
@@ -113,12 +106,10 @@ function displayRandomPlayer() {
     if (playersData.length > 0) {
         const randomIndex = Math.floor(Math.random() * playersData.length);
         const player = playersData[randomIndex];
-        displayPlayer(player);
-        document.getElementById('submitBtn').onclick = function() {
-            const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
-            let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
-            updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'), displayRandomPlayer);
-        };
+        document.getElementById('playerName').textContent = player.name;
+        document.getElementById('collegeGuess').value = '';
+        document.getElementById('result').textContent = '';
+        document.getElementById('result').className = '';
     } else {
         console.log("No data available");
     }
@@ -206,9 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('copyButton').addEventListener('click', copyToClipboard);
-    document.getElementById('returnButton').addEventListener('click', () => {
-        window.location.href = "https://khobster.github.io/plunko"; // Redirect to standard play
-    });
 
     // Tooltip handling for mobile
     const tooltip = document.querySelector('.tooltip');
@@ -222,4 +210,80 @@ document.addEventListener('DOMContentLoaded', () => {
             tooltip.classList.remove('active');
         }
     });
+});
+
+function handleURLPlay(playerNames) {
+    let playerIndex = 0;
+    correctStreak = 0; // Reset correct streak when starting a shared link sequence
+    lastThreeCorrect = []; // Clear last three correct players
+
+    function nextPlayer() {
+        if (playerIndex < playerNames.length) {
+            const playerName = playerNames[playerIndex];
+            const player = playersData.find(p => p.name === playerName);
+            if (player) {
+                displayPlayer(player);
+                document.getElementById('submitBtn').onclick = function() {
+                    const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
+                    let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
+                    updateURLPlay(isCorrect, player.name, document.getElementById('result'), nextPlayer);
+                    playerIndex++; // Increment playerIndex after checking the answer
+                };
+            } else {
+                playerIndex++; // Skip to the next player if not found
+                nextPlayer();
+            }
+        } else {
+            displayRandomPlayer();
+        }
+    }
+    nextPlayer();
+}
+
+function updateURLPlay(isCorrect, playerName, resultElement, nextPlayerCallback) {
+    if (isCorrect) {
+        correctStreak++;
+        lastThreeCorrect.push(playerName);
+        if (lastThreeCorrect.length > 3) {
+            lastThreeCorrect.shift();
+        }
+        if (correctStreak === 1) {
+            resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span>";
+        } else if (correctStreak === 2) {
+            resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Just one more for a <span class='kaboom'>PLUNKO!</span>";
+        } else if (correctStreak === 3) {
+            resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
+            const encodedPlayers = encodeURIComponent(lastThreeCorrect.join(','));
+            const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
+            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
+            document.getElementById('shareSnippet').innerHTML = shareText;
+            document.getElementById('copyButton').style.display = 'block';
+            document.getElementById('returnButton').style.display = 'block';
+            correctStreak = 0; // Reset the correct streak after achieving PLUNKO
+            lastThreeCorrect = []; // Clear the list of last three correct players after achieving PLUNKO
+            return; // Exit the function to stop showing more players
+        }
+        resultElement.className = 'correct';
+        correctSound.play();
+        setTimeout(nextPlayerCallback, 3000); // Show next player after a delay
+    } else {
+        correctStreak = 0;
+        lastThreeCorrect = [];
+        resultElement.textContent = 'You didn\'t get all 3 correct. Better luck next time!';
+        resultElement.className = 'incorrect';
+        wrongSound.play();
+        const encodedPlayers = encodeURIComponent(lastThreeCorrect.join(','));
+        const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
+        let shareText = `I couldn't get all 3 correct on PLUNKO. Can you?<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
+        document.getElementById('shareSnippet').innerHTML = shareText;
+        document.getElementById('copyButton').style.display = 'block';
+        document.getElementById('returnButton').style.display = 'block';
+    }
+}
+
+document.getElementById('returnButton').addEventListener('click', () => {
+    document.getElementById('shareSnippet').innerHTML = '';
+    document.getElementById('copyButton').style.display = 'none';
+    document.getElementById('returnButton').style.display = 'none';
+    displayRandomPlayer();
 });
