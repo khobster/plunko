@@ -124,6 +124,9 @@ function displayPlayer(player) {
 
 function displayPlayers(playerNames) {
     let playerIndex = 0;
+    correctStreak = 0; // Reset correct streak when starting a shared link sequence
+    lastThreeCorrect = []; // Clear last three correct players
+
     function nextPlayer() {
         if (playerIndex < playerNames.length) {
             const playerName = playerNames[playerIndex];
