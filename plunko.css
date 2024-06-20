@@ -6,6 +6,7 @@
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
+    position: relative; /* Ensure relative positioning for dropdown alignment */
 }
 
 .title-container h1 {
@@ -67,7 +68,7 @@
     width: 90%;
     padding: 8px;
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 0; /* Remove bottom margin to avoid gray line */
     border: 2px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
@@ -87,7 +88,7 @@
     transition: background-color 0.3s;
     font-family: 'Archivo Narrow', sans-serif;
     display: block;
-    margin: 0 auto;
+    margin: 10px auto; /* Add margin for spacing */
 }
 
 #submitBtn:hover {
@@ -153,14 +154,16 @@
     overflow-y: auto;
     width: 90%; /* Match the width of the input field */
     z-index: 1000;
-    margin-top: -1px; /* Adjust margin to remove space between input and suggestions */
+    margin-top: 0; /* Adjust margin to remove space between input and suggestions */
+    left: 50%;
+    transform: translateX(-50%); /* Center align the dropdown */
+    font-family: 'Archivo Narrow', sans-serif; /* Match font */
+    font-size: 14px; /* Match font size */
 }
 
 .suggestion-item {
     padding: 8px;
     cursor: pointer;
-    font-family: 'Archivo Narrow', sans-serif;
-    font-size: 14px;
 }
 
 .suggestion-item:hover {
