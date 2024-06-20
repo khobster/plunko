@@ -1,6 +1,8 @@
 let playersData = [];
-let correctStreak = 0;
-let lastThreeCorrect = [];
+let correctStreakStandard = 0;
+let lastThreeCorrectStandard = [];
+let correctStreakURL = 0;
+let lastThreeCorrectURL = [];
 const correctSound = new Audio('https://vanillafrosting.agency/wp-content/uploads/2023/11/bing-bong.mp3');
 const wrongSound = new Audio('https://vanillafrosting.agency/wp-content/uploads/2023/11/incorrect-answer-for-plunko.mp3');
 
@@ -41,37 +43,70 @@ function isCloseMatch(guess, answer) {
     return simpleAnswer.includes(simpleGuess);
 }
 
-function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement, nextPlayerCallback) {
+function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultElement, nextPlayerCallback) {
     if (isCorrect) {
-        correctStreak++;
-        lastThreeCorrect.push(playerName);
-        if (lastThreeCorrect.length > 3) {
-            lastThreeCorrect.shift();
+        correctStreakStandard++;
+        lastThreeCorrectStandard.push(playerName);
+        if (lastThreeCorrectStandard.length > 3) {
+            lastThreeCorrectStandard.shift();
         }
-        if (correctStreak === 1) {
+        if (correctStreakStandard === 1) {
             resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Now you need to get just two more to get a <span class='kaboom'>PLUNKO!</span>";
-        } else if (correctStreak === 2) {
+        } else if (correctStreakStandard === 2) {
             resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Now you need to get just one more to get a <span class='kaboom'>PLUNKO!</span>";
-        } else if (correctStreak === 3) {
+        } else if (correctStreakStandard === 3) {
             resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
-            const encodedPlayers = encodeURIComponent(lastThreeCorrect.join(','));
+            const encodedPlayers = encodeURIComponent(lastThreeCorrectStandard.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
+            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
-            correctStreak = 0; // Reset the correct streak after achieving PLUNKO
-            lastThreeCorrect = []; // Clear the list of last three correct players after achieving PLUNKO
+            document.getElementById('returnButton').style.display = 'block';
+            correctStreakStandard = 0; // Reset the correct streak after achieving PLUNKO
+            lastThreeCorrectStandard = []; // Clear the list of last three correct players after achieving PLUNKO
         }
         resultElement.className = 'correct';
         correctSound.play();
     } else {
-        correctStreak = 0;
-        lastThreeCorrect = [];
+        correctStreakStandard = 0;
+        lastThreeCorrectStandard = [];
         resultElement.textContent = 'Wrong answer. Try again!';
         resultElement.className = 'incorrect';
         wrongSound.play();
     }
     setTimeout(nextPlayerCallback, 3000); // Show next player after a delay
+}
+
+function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement, nextPlayerCallback, playerIndex, totalPlayers) {
+    if (isCorrect) {
+        correctStreakURL++;
+        lastThreeCorrectURL.push(playerName);
+        if (lastThreeCorrectURL.length > 3) {
+            lastThreeCorrectURL.shift();
+        }
+        if (correctStreakURL === totalPlayers) {
+            resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
+            const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
+            const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
+            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
+            document.getElementById('shareSnippet').innerHTML = shareText;
+            document.getElementById('copyButton').style.display = 'block';
+            document.getElementById('returnButton').style.display = 'block';
+            correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
+            lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
+        } else {
+            nextPlayerCallback(playerIndex + 1);
+        }
+        resultElement.className = 'correct';
+        correctSound.play();
+    } else {
+        correctStreakURL = 0;
+        lastThreeCorrectURL = [];
+        resultElement.textContent = 'Wrong answer. Try again!';
+        resultElement.className = 'incorrect';
+        wrongSound.play();
+        endURLChallenge(false);
+    }
 }
 
 function copyToClipboard() {
@@ -91,15 +126,26 @@ function loadPlayersData() {
             playersData = data;
             const urlPlayers = getPlayersFromURL();
             if (urlPlayers.length > 0) {
-                displayPlayers(urlPlayers);
+                startURLChallenge(urlPlayers);
             } else {
-                displayRandomPlayer();
+                startStandardPlay();
             }
         })
         .catch(error => {
             console.error('Error loading JSON:', error);
             document.getElementById('playerQuestion').textContent = 'Error loading player data.';
         });
+}
+
+function startStandardPlay() {
+    displayRandomPlayer();
+    document.getElementById('submitBtn').onclick = function() {
+        const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
+        const playerName = document.getElementById('playerName').textContent;
+        const player = playersData.find(p => p.name === playerName);
+        let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
+        updateStreakAndGenerateSnippetStandard(isCorrect, playerName, document.getElementById('result'), displayRandomPlayer);
+    };
 }
 
 function displayRandomPlayer() {
@@ -122,32 +168,49 @@ function displayPlayer(player) {
     document.getElementById('result').className = '';
 }
 
-function displayPlayers(playerNames) {
+function startURLChallenge(playerNames) {
     let playerIndex = 0;
-    correctStreak = 0; // Reset correct streak when starting a shared link sequence
-    lastThreeCorrect = []; // Clear last three correct players
+    correctStreakURL = 0; // Reset correct streak when starting a shared link sequence
+    lastThreeCorrectURL = []; // Clear last three correct players
 
-    function nextPlayer() {
-        if (playerIndex < playerNames.length) {
-            const playerName = playerNames[playerIndex];
+    function nextPlayer(index) {
+        if (index < playerNames.length) {
+            const playerName = playerNames[index];
             const player = playersData.find(p => p.name === playerName);
             if (player) {
                 displayPlayer(player);
                 document.getElementById('submitBtn').onclick = function() {
                     const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
                     let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
-                    updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'), nextPlayer);
-                    playerIndex++; // Increment playerIndex after checking the answer
+                    updateStreakAndGenerateSnippetURL(isCorrect, player.name, document.getElementById('result'), nextPlayer, index, playerNames.length);
                 };
             } else {
-                playerIndex++; // Skip to the next player if not found
-                nextPlayer();
+                nextPlayer(index + 1); // Skip to the next player if not found
             }
         } else {
-            displayRandomPlayer();
+            endURLChallenge(true);
         }
     }
-    nextPlayer();
+    nextPlayer(playerIndex);
+}
+
+function endURLChallenge(success) {
+    const resultElement = document.getElementById('result');
+    if (success) {
+        resultElement.innerHTML = "<span class='kaboom'>You got all 3 correct! Share your success!</span>";
+        resultElement.className = 'correct';
+    } else {
+        resultElement.innerHTML = "You didn't get all 3 correct. Better luck next time!";
+        resultElement.className = 'incorrect';
+    }
+    const shareText = success ? "I got all 3 correct on PLUNKO!" : "I couldn't get all 3 correct on PLUNKO. Can you?";
+    const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
+    const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
+    let shareSnippet = `${shareText}<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNKO: ${shareLink}`;
+    document.getElementById('shareSnippet').innerHTML = shareSnippet;
+    document.getElementById('copyButton').style.display = 'block';
+    document.getElementById('returnButton').style.display = 'block';
+    document.getElementById('submitBtn').style.display = 'none';
 }
 
 function getPlayersFromURL() {
@@ -188,15 +251,15 @@ document.addEventListener('DOMContentLoaded', () => {
         showSuggestions(e.target.value);
     });
 
-    document.getElementById('submitBtn').addEventListener('click', function() {
-        const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
-        const playerName = document.getElementById('playerName').textContent;
-        const player = playersData.find(p => p.name === playerName);
-        let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
-        updateStreakAndGenerateSnippet(isCorrect, playerName, document.getElementById('result'), displayRandomPlayer);
-    });
-
     document.getElementById('copyButton').addEventListener('click', copyToClipboard);
+
+    document.getElementById('returnButton').addEventListener('click', () => {
+        document.getElementById('shareSnippet').innerHTML = '';
+        document.getElementById('copyButton').style.display = 'none';
+        document.getElementById('returnButton').style.display = 'none';
+        document.getElementById('submitBtn').style.display = 'block';
+        startStandardPlay();
+    });
 
     // Tooltip handling for mobile
     const tooltip = document.querySelector('.tooltip');
@@ -210,80 +273,4 @@ document.addEventListener('DOMContentLoaded', () => {
             tooltip.classList.remove('active');
         }
     });
-});
-
-function handleURLPlay(playerNames) {
-    let playerIndex = 0;
-    correctStreak = 0; // Reset correct streak when starting a shared link sequence
-    lastThreeCorrect = []; // Clear last three correct players
-
-    function nextPlayer() {
-        if (playerIndex < playerNames.length) {
-            const playerName = playerNames[playerIndex];
-            const player = playersData.find(p => p.name === playerName);
-            if (player) {
-                displayPlayer(player);
-                document.getElementById('submitBtn').onclick = function() {
-                    const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
-                    let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
-                    updateURLPlay(isCorrect, player.name, document.getElementById('result'), nextPlayer);
-                    playerIndex++; // Increment playerIndex after checking the answer
-                };
-            } else {
-                playerIndex++; // Skip to the next player if not found
-                nextPlayer();
-            }
-        } else {
-            displayRandomPlayer();
-        }
-    }
-    nextPlayer();
-}
-
-function updateURLPlay(isCorrect, playerName, resultElement, nextPlayerCallback) {
-    if (isCorrect) {
-        correctStreak++;
-        lastThreeCorrect.push(playerName);
-        if (lastThreeCorrect.length > 3) {
-            lastThreeCorrect.shift();
-        }
-        if (correctStreak === 1) {
-            resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span>";
-        } else if (correctStreak === 2) {
-            resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Just one more for a <span class='kaboom'>PLUNKO!</span>";
-        } else if (correctStreak === 3) {
-            resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
-            const encodedPlayers = encodeURIComponent(lastThreeCorrect.join(','));
-            const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
-            document.getElementById('shareSnippet').innerHTML = shareText;
-            document.getElementById('copyButton').style.display = 'block';
-            document.getElementById('returnButton').style.display = 'block';
-            correctStreak = 0; // Reset the correct streak after achieving PLUNKO
-            lastThreeCorrect = []; // Clear the list of last three correct players after achieving PLUNKO
-            return; // Exit the function to stop showing more players
-        }
-        resultElement.className = 'correct';
-        correctSound.play();
-        setTimeout(nextPlayerCallback, 3000); // Show next player after a delay
-    } else {
-        correctStreak = 0;
-        lastThreeCorrect = [];
-        resultElement.textContent = 'You didn\'t get all 3 correct. Better luck next time!';
-        resultElement.className = 'incorrect';
-        wrongSound.play();
-        const encodedPlayers = encodeURIComponent(lastThreeCorrect.join(','));
-        const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-        let shareText = `I couldn't get all 3 correct on PLUNKO. Can you?<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
-        document.getElementById('shareSnippet').innerHTML = shareText;
-        document.getElementById('copyButton').style.display = 'block';
-        document.getElementById('returnButton').style.display = 'block';
-    }
-}
-
-document.getElementById('returnButton').addEventListener('click', () => {
-    document.getElementById('shareSnippet').innerHTML = '';
-    document.getElementById('copyButton').style.display = 'none';
-    document.getElementById('returnButton').style.display = 'none';
-    displayRandomPlayer();
 });
