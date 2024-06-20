@@ -64,7 +64,7 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement, ne
         correctSound.play();
     } else {
         correctStreak = 0;
-        lastThreeCorrect.length = 0;
+        lastThreeCorrect = [];
         resultElement.textContent = 'Wrong answer. Try again!';
         resultElement.className = 'incorrect';
         wrongSound.play();
