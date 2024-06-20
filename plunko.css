@@ -21,20 +21,20 @@
     cursor: pointer;
     margin-left: 5px;
     font-size: 14px;
-    background: pink; /* Change this to match the button color */
+    background: pink;
     border-radius: 50%;
     width: 18px;
     height: 18px;
     line-height: 18px;
     text-align: center;
-    color: white; /* Ensure the question mark is visible */
+    color: white;
 }
 
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 220px;
-    background-color: lemonchiffon; /* Change this to lemon yellow */
-    color: #333; /* Dark text for readability */
+    background-color: lemonchiffon;
+    color: #333;
     text-align: center;
     border-radius: 6px;
     padding: 5px;
@@ -44,7 +44,7 @@
     left: 105%;
     opacity: 0;
     transition: opacity 0.3s;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: add a subtle shadow for better visibility */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .tooltip:hover .tooltiptext {
@@ -86,6 +86,8 @@
     border-radius: 4px;
     transition: background-color 0.3s;
     font-family: 'Archivo Narrow', sans-serif;
+    display: block;
+    margin: 0 auto;
 }
 
 #submitBtn:hover {
@@ -149,14 +151,16 @@
     border: 1px solid #ddd;
     max-height: 150px;
     overflow-y: auto;
-    width: calc(100% - 2em); /* Adjust width to match the input field */
+    width: 90%; /* Match the width of the input field */
     z-index: 1000;
-    margin-top: 5px; /* Space between input and suggestions */
+    margin-top: -1px; /* Adjust margin to remove space between input and suggestions */
 }
 
 .suggestion-item {
     padding: 8px;
     cursor: pointer;
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 14px;
 }
 
 .suggestion-item:hover {
