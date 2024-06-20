@@ -32,7 +32,7 @@ function isCloseMatch(guess, answer) {
         "hedidnotgotocollege"
     ];
 
-    if (noCollegePhrases includes(normalizedGuess) && simpleAnswer === '') {
+    if (noCollegePhrases.includes(normalizedGuess) && simpleAnswer === '') {
         return true;
     }
 
@@ -40,7 +40,7 @@ function isCloseMatch(guess, answer) {
         return true;
     }
 
-    return simpleAnswer includes(simpleGuess);
+    return simpleAnswer.includes(simpleGuess);
 }
 
 function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultElement, nextPlayerCallback) {
@@ -90,7 +90,6 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
             let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
-            document.getElementById('returnButton').style.display = 'block'; // Show the return button
             correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
             lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
         } else {
@@ -210,7 +209,7 @@ function endURLChallenge(success) {
     let shareSnippet = `${shareText}<br>Play PLUNKO: ${currentURL}`;
     document.getElementById('shareSnippet').innerHTML = shareSnippet;
     document.getElementById('copyButton').style.display = 'block';
-    document.getElementById('returnButton').style.display = 'block'; // Show the return button
+    document.getElementById('returnButton').style.display = 'block';
     document.getElementById('submitBtn').style.display = 'none';
 }
 
