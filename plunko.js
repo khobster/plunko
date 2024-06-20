@@ -59,6 +59,8 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement, ne
             let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
+            correctStreak = 0; // Reset the correct streak after achieving PLUNKO
+            lastThreeCorrect = []; // Clear the list of last three correct players after achieving PLUNKO
         }
         resultElement.className = 'correct';
         correctSound.play();
@@ -140,8 +142,6 @@ function displayPlayers(playerNames) {
                 displayRandomPlayer();
             }
         } else {
-            correctStreak = 0; // Reset the correct streak after finishing the set
-            lastThreeCorrect = []; // Clear the list of last three correct players
             displayRandomPlayer();
         }
     }
