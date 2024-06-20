@@ -52,7 +52,7 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement, ne
             resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Now you need to get just two more to get a <span class='kaboom'>PLUNKO!</span>";
         } else if (correctStreak === 2) {
             resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Now you need to get just one more to get a <span class='kaboom'>PLUNKO!</span>";
-        } else if (correctStreak >= 3) {
+        } else if (correctStreak === 3) {
             resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
             const encodedPlayers = encodeURIComponent(lastThreeCorrect.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
