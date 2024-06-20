@@ -24,9 +24,9 @@
     font-size: 14px;
     background: pink;
     border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    line-height: 18px;
+    width: 24px; /* Increase width for easier tapping */
+    height: 24px; /* Increase height for easier tapping */
+    line-height: 24px; /* Adjust line height */
     text-align: center;
     color: white;
 }
@@ -44,13 +44,22 @@
     top: -5px;
     left: 105%;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, visibility 0.3s;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.tooltip:hover .tooltiptext {
+.tooltip:hover .tooltiptext,
+.tooltip.active .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+@media only screen and (max-width: 600px) {
+    .tooltip .tooltiptext {
+        left: 50%;
+        transform: translateX(-50%);
+        top: 30px;
+    }
 }
 
 #playerQuestion {
