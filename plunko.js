@@ -48,15 +48,18 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement) {
         if (lastThreeCorrect.length > 3) {
             lastThreeCorrect.shift();
         }
-        resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Now you need to get just two more to get a <span class='kaboom'>PLUNKO!</span>";
-        resultElement.className = 'correct';
-        correctSound.play();
-        if (correctStreak >= 3) {
+        if (correctStreak === 1) {
+            resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Now you need to get just two more to get a <span class='kaboom'>PLUNKO!</span>";
+        } else if (correctStreak === 2) {
+            resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Now you need to get just one more to get a <span class='kaboom'>PLUNKO!</span>";
+        } else if (correctStreak >= 3) {
+            resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
             let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: https://khobster.github.io/plunko`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
-            resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
         }
+        resultElement.className = 'correct';
+        correctSound.play();
     } else {
         correctStreak = 0;
         lastThreeCorrect.length = 0;
