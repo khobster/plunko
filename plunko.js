@@ -90,6 +90,7 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
             let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
+            document.getElementById('returnButton').style.display = 'block'; // Show the return button
             correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
             lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
         } else {
