@@ -86,8 +86,12 @@ function loadPlayersData() {
         .then(response => response.json())
         .then(data => {
             playersData = data;
-            displayPlayersFromURL(); // Display players from URL if any
-            displayRandomPlayer(); // Display random player if no players from URL
+            const urlPlayers = getPlayersFromURL();
+            if (urlPlayers.length > 0) {
+                displayPlayers(urlPlayers);
+            } else {
+                displayRandomPlayer();
+            }
         })
         .catch(error => {
             console.error('Error loading JSON:', error);
@@ -99,25 +103,51 @@ function displayRandomPlayer() {
     if (playersData.length > 0) {
         const randomIndex = Math.floor(Math.random() * playersData.length);
         const player = playersData[randomIndex];
-        document.getElementById('playerName').textContent = player.name;
-        document.getElementById('collegeGuess').value = '';
-        document.getElementById('result').textContent = '';
-        document.getElementById('result').className = '';
+        displayPlayer(player);
     } else {
         console.log("No data available");
     }
 }
 
-function displayPlayersFromURL() {
+function displayPlayer(player) {
+    document.getElementById('playerName').textContent = player.name;
+    document.getElementById('collegeGuess').value = '';
+    document.getElementById('result').textContent = '';
+    document.getElementById('result').className = '';
+}
+
+function displayPlayers(playerNames) {
+    let playerIndex = 0;
+    function nextPlayer() {
+        if (playerIndex < playerNames.length) {
+            const playerName = playerNames[playerIndex];
+            const player = playersData.find(p => p.name === playerName);
+            if (player) {
+                displayPlayer(player);
+                playerIndex++;
+                document.getElementById('submitBtn').onclick = function() {
+                    const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
+                    let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
+                    updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'));
+                    setTimeout(nextPlayer, 3000); // Show next player after a delay
+                };
+            } else {
+                displayRandomPlayer();
+            }
+        } else {
+            displayRandomPlayer();
+        }
+    }
+    nextPlayer();
+}
+
+function getPlayersFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     const playersParam = urlParams.get('players');
     if (playersParam) {
-        const players = playersParam.split(',');
-        if (players.length > 0) {
-            document.getElementById('playerName').textContent = players[0];
-            lastThreeCorrect = players;
-        }
+        return playersParam.split(',');
     }
+    return [];
 }
 
 function showSuggestions(input) {
@@ -155,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const player = playersData.find(p => p.name === playerName);
         let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
         updateStreakAndGenerateSnippet(isCorrect, playerName, document.getElementById('result'));
-        setTimeout(displayRandomPlayer, 7000); // Increase the timeout duration to 3000ms (3 seconds)
+        setTimeout(displayRandomPlayer, 3000); // Increase the timeout duration to 3000ms (3 seconds)
     });
 
     document.getElementById('copyButton').addEventListener('click', copyToClipboard);
