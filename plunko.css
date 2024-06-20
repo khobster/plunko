@@ -72,6 +72,7 @@
     border-radius: 4px;
     font-size: 14px;
     font-family: 'Archivo Narrow', sans-serif;
+    position: relative;
 }
 
 #submitBtn {
@@ -140,6 +141,26 @@
 
 #copyButton:hover {
     background-color: #45a049;
+}
+
+#suggestions {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 150px;
+    overflow-y: auto;
+    width: calc(100% - 2em); /* Adjust width to match the input field */
+    z-index: 1000;
+    margin-top: 5px; /* Space between input and suggestions */
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
 }
 
 @media only screen and (max-width: 600px) {
