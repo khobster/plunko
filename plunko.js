@@ -106,10 +106,12 @@ function displayRandomPlayer() {
     if (playersData.length > 0) {
         const randomIndex = Math.floor(Math.random() * playersData.length);
         const player = playersData[randomIndex];
-        document.getElementById('playerName').textContent = player.name;
-        document.getElementById('collegeGuess').value = '';
-        document.getElementById('result').textContent = '';
-        document.getElementById('result').className = '';
+        displayPlayer(player);
+        document.getElementById('submitBtn').onclick = function() {
+            const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
+            let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
+            updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'), displayRandomPlayer);
+        };
     } else {
         console.log("No data available");
     }
