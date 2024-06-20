@@ -137,7 +137,7 @@
     font-family: 'Archivo Narrow', sans-serif;
 }
 
-#copyButton {
+#copyButton, #returnButton {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -147,12 +147,15 @@
     cursor: pointer;
     margin-top: 5px;
     transition: background-color 0.3s;
-    display: none;
     font-family: 'Archivo Narrow', sans-serif;
 }
 
-#copyButton:hover {
+#copyButton:hover, #returnButton:hover {
     background-color: #45a049;
+}
+
+#copyButton, #returnButton {
+    display: none; /* Hide buttons initially */
 }
 
 #suggestions {
