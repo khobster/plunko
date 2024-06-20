@@ -140,6 +140,8 @@ function displayPlayers(playerNames) {
                 displayRandomPlayer();
             }
         } else {
+            correctStreak = 0; // Reset the correct streak after finishing the set
+            lastThreeCorrect = []; // Clear the list of last three correct players
             displayRandomPlayer();
         }
     }
