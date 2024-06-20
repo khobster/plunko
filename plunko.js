@@ -130,11 +130,11 @@ function displayPlayers(playerNames) {
             const player = playersData.find(p => p.name === playerName);
             if (player) {
                 displayPlayer(player);
-                playerIndex++; // Increment playerIndex after displaying the player
                 document.getElementById('submitBtn').onclick = function() {
                     const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
                     let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
                     updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'), nextPlayer);
+                    playerIndex++; // Increment playerIndex after checking the answer
                 };
             } else {
                 playerIndex++; // Skip to the next player if not found
