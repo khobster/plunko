@@ -32,8 +32,8 @@
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 220px;
-    background-color: black;
-    color: #fff;
+    background-color: lemonchiffon; /* Change this to lemon yellow */
+    color: #333; /* Dark text for readability */
     text-align: center;
     border-radius: 6px;
     padding: 5px;
@@ -43,6 +43,7 @@
     left: 105%;
     opacity: 0;
     transition: opacity 0.3s;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: add a subtle shadow for better visibility */
 }
 
 .tooltip:hover .tooltiptext {
