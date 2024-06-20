@@ -54,7 +54,9 @@ function updateStreakAndGenerateSnippet(isCorrect, playerName, resultElement) {
             resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Now you need to get just one more to get a <span class='kaboom'>PLUNKO!</span>";
         } else if (correctStreak >= 3) {
             resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
-            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: https://khobster.github.io/plunko`;
+            const encodedPlayers = encodeURIComponent(lastThreeCorrect.join(','));
+            const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
+            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrect.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'block';
         }
@@ -84,7 +86,8 @@ function loadPlayersData() {
         .then(response => response.json())
         .then(data => {
             playersData = data;
-            displayRandomPlayer();
+            displayPlayersFromURL(); // Display players from URL if any
+            displayRandomPlayer(); // Display random player if no players from URL
         })
         .catch(error => {
             console.error('Error loading JSON:', error);
@@ -102,6 +105,18 @@ function displayRandomPlayer() {
         document.getElementById('result').className = '';
     } else {
         console.log("No data available");
+    }
+}
+
+function displayPlayersFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const playersParam = urlParams.get('players');
+    if (playersParam) {
+        const players = playersParam.split(',');
+        if (players.length > 0) {
+            document.getElementById('playerName').textContent = players[0];
+            lastThreeCorrect = players;
+        }
     }
 }
 
@@ -140,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const player = playersData.find(p => p.name === playerName);
         let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
         updateStreakAndGenerateSnippet(isCorrect, playerName, document.getElementById('result'));
-        setTimeout(displayRandomPlayer, 5000); // Increase the timeout duration to 3000ms (3 seconds)
+        setTimeout(displayRandomPlayer, 3000); // Increase the timeout duration to 3000ms (3 seconds)
     });
 
     document.getElementById('copyButton').addEventListener('click', copyToClipboard);
