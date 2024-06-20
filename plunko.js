@@ -106,12 +106,10 @@ function displayRandomPlayer() {
     if (playersData.length > 0) {
         const randomIndex = Math.floor(Math.random() * playersData.length);
         const player = playersData[randomIndex];
-        displayPlayer(player);
-        document.getElementById('submitBtn').onclick = function() {
-            const userGuess = document.getElementById('collegeGuess').value.trim().toLowerCase();
-            let isCorrect = player && isCloseMatch(userGuess, player.college || 'No College');
-            updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'), displayRandomPlayer);
-        };
+        document.getElementById('playerName').textContent = player.name;
+        document.getElementById('collegeGuess').value = '';
+        document.getElementById('result').textContent = '';
+        document.getElementById('result').className = '';
     } else {
         console.log("No data available");
     }
@@ -139,7 +137,8 @@ function displayPlayers(playerNames) {
                     updateStreakAndGenerateSnippet(isCorrect, player.name, document.getElementById('result'), nextPlayer);
                 };
             } else {
-                displayRandomPlayer();
+                playerIndex++; // Skip to the next player if not found
+                nextPlayer();
             }
         } else {
             displayRandomPlayer();
