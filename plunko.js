@@ -60,8 +60,7 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
             let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
-            document.getElementById('copyButton').style.display = 'inline-block';
-            document.getElementById('returnButton').style.display = 'inline-block';
+            document.getElementById('copyButton').style.display = 'block';
             correctStreakStandard = 0; // Reset the correct streak after achieving PLUNKO
             lastThreeCorrectStandard = []; // Clear the list of last three correct players after achieving PLUNKO
         }
@@ -85,14 +84,13 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
             lastThreeCorrectURL.shift();
         }
         if (correctStreakURL === totalPlayers) {
-            resultElement.innerHTML = "<span class='kaboom'>YES! PLUNKO!!</span>";
+            resultElement.innerHTML = "YES! PLUNKO!!"; // Show the PLUNKO message
             const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
             let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
-            document.getElementById('copyButton').style.display = 'inline-block';
-            document.getElementById('returnButton').style.display = 'inline-block';
-            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('copyButton').style.display = 'block';
+            document.getElementById('returnButton').style.display = 'block';
             correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
             lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
         } else {
@@ -201,7 +199,7 @@ function startURLChallenge(playerNames) {
 function endURLChallenge(success) {
     const resultElement = document.getElementById('result');
     if (success) {
-        resultElement.innerHTML = "<span class='kaboom'>YES! PLUNKO!!</span><br>You got all 3 correct! Share your success!";
+        resultElement.innerHTML = "<span class='kaboom'>YES! PLUNKO!!</span>";
         resultElement.className = 'correct';
     } else {
         resultElement.innerHTML = "You didn't get all 3 correct. Better luck next time!";
@@ -211,8 +209,8 @@ function endURLChallenge(success) {
     const currentURL = window.location.href;
     let shareSnippet = `${shareText}<br>Play PLUNKO: ${currentURL}`;
     document.getElementById('shareSnippet').innerHTML = shareSnippet;
-    document.getElementById('copyButton').style.display = 'inline-block';
-    document.getElementById('returnButton').style.display = 'inline-block';
+    document.getElementById('copyButton').style.display = 'block';
+    document.getElementById('returnButton').style.display = 'block';
     document.getElementById('submitBtn').style.display = 'none';
 }
 
