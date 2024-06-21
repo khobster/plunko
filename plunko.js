@@ -58,7 +58,7 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
             resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
             const encodedPlayers = encodeURIComponent(lastThreeCorrectStandard.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK!<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK: ${shareLink}`;
+            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'inline-block';
             document.getElementById('returnButton').style.display = 'inline-block';
@@ -93,23 +93,28 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
         }
         if (correctStreakURL === totalPlayers) {
             console.log('User got all 3 correct in URL play.');
+            
+            // Display PLUNKO! message first
+            const messageElement = document.createElement('span');
+            messageElement.className = 'kaboom';
+            messageElement.innerHTML = 'YES! PLUNKO!!';
+            resultElement.appendChild(messageElement);
+            console.log('Appended message element to resultElement:', resultElement.innerHTML);
+            
+            // Add share snippet and buttons after a delay
             setTimeout(() => {
-                const messageElement = document.createElement('span');
-                messageElement.className = 'kaboom';
-                messageElement.innerHTML = 'YES! PLUNKO!!';
-                resultElement.appendChild(messageElement);
-                console.log('Appended message element to resultElement:', resultElement.innerHTML);
-            }, 0);
-
-            const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
-            const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK: ${shareLink}`;
-            document.getElementById('shareSnippet').innerHTML = shareText;
-            document.getElementById('copyButton').style.display = 'inline-block';
-            document.getElementById('returnButton').style.display = 'inline-block';
-            document.getElementById('submitBtn').style.display = 'none';
-            correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
-            lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
+                const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
+                const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
+                let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
+                document.getElementById('shareSnippet').innerHTML = shareText;
+                document.getElementById('copyButton').style.display = 'inline-block';
+                document.getElementById('returnButton').style.display = 'inline-block';
+                document.getElementById('submitBtn').style.display = 'none';
+                correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
+                lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
+            }, 1000);
+            
+            correctSound.play();
         } else {
             resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Keep going!";
             resultElement.className = 'correct';
