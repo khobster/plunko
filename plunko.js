@@ -58,7 +58,7 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
             resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
             const encodedPlayers = encodeURIComponent(lastThreeCorrectStandard.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK : ${shareLink}`;
+            let shareText = `3 in a row! That's a PLUNK!<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'inline-block';
             document.getElementById('returnButton').style.display = 'inline-block';
@@ -88,30 +88,20 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
         }
         if (correctStreakURL === totalPlayers) {
             console.log('User got all 3 correct in URL play.');
+            const messageElement = document.createElement('span');
+            messageElement.className = 'kaboom';
+            messageElement.innerHTML = 'YES! PLUNKO!!';
+            resultElement.appendChild(messageElement);
 
-            // Create the "YES! PLUNKO!!" message element
-            const message = document.createElement('span');
-            message.className = 'kaboom';
-            message.textContent = 'YES! PLUNKO!!';
-            console.log('Created message element:', message);
-
-            // Clear previous messages and append the new message
-            resultElement.innerHTML = '';
-            resultElement.appendChild(message);
-            console.log('Appended message element to resultElement:', resultElement);
-
-            // Update the share snippet
             const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK : ${shareLink}`;
+            let shareText = `3 in a row! That's a PLUNK!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'inline-block';
             document.getElementById('returnButton').style.display = 'inline-block';
             document.getElementById('submitBtn').style.display = 'none';
-
-            // Reset the streak and correct players list
-            correctStreakURL = 0;
-            lastThreeCorrectURL = [];
+            correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
+            lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
         } else {
             resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Keep going!";
             resultElement.className = 'correct';
@@ -218,24 +208,10 @@ function startURLChallenge(playerNames) {
 function endURLChallenge(success) {
     const resultElement = document.getElementById('result');
     if (success) {
-        console.log('User got all 3 correct in URL play.');
-        resultElement.innerHTML = "";
-        const message1 = document.createElement('span');
-        message1.className = 'kaboom';
-        message1.textContent = 'YES! PLUNKO!!';
-        console.log('Created message element:', message1);
-        const message2 = document.createElement('span');
-        message2.className = 'kaboom';
-        message2.textContent = 'You got all 3 correct! Share your success!';
-        console.log('Created second message element:', message2);
-        resultElement.appendChild(message1);
-        console.log('Appended first message element to resultElement:', resultElement);
-        resultElement.appendChild(document.createElement('br'));
-        resultElement.appendChild(message2);
-        console.log('Appended second message element to resultElement:', resultElement);
+        resultElement.innerHTML = "<span class='kaboom'>YES! PLUNKO!!</span><br><span class='kaboom'>You got all 3 correct! Share your success!</span>";
         resultElement.className = 'correct';
     } else {
-        resultElement.textContent = "You didn't get all 3 correct. Better luck next time!";
+        resultElement.innerHTML = "You didn't get all 3 correct. Better luck next time!";
         resultElement.className = 'incorrect';
     }
     const shareText = success ? "I got all 3 correct on PLUNKO!" : "I couldn't get all 3 correct on PLUNKO. Can you?";
