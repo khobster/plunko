@@ -89,13 +89,18 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
         if (correctStreakURL === totalPlayers) {
             console.log('User got all 3 correct in URL play.');
 
+            // Create the "YES! PLUNKO!!" message element
             const message = document.createElement('span');
             message.className = 'kaboom';
             message.textContent = 'YES! PLUNKO!!';
+            console.log('Created message element:', message);
+
+            // Clear previous messages and append the new message
+            resultElement.innerHTML = '';
             resultElement.appendChild(message);
+            console.log('Appended message element to resultElement:', resultElement);
 
-            console.log('resultElement appended with:', message);
-
+            // Update the share snippet
             const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
             let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK : ${shareLink}`;
@@ -103,8 +108,10 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
             document.getElementById('copyButton').style.display = 'inline-block';
             document.getElementById('returnButton').style.display = 'inline-block';
             document.getElementById('submitBtn').style.display = 'none';
-            correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
-            lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
+
+            // Reset the streak and correct players list
+            correctStreakURL = 0;
+            lastThreeCorrectURL = [];
         } else {
             resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Keep going!";
             resultElement.className = 'correct';
@@ -211,16 +218,21 @@ function startURLChallenge(playerNames) {
 function endURLChallenge(success) {
     const resultElement = document.getElementById('result');
     if (success) {
+        console.log('User got all 3 correct in URL play.');
         resultElement.innerHTML = "";
         const message1 = document.createElement('span');
         message1.className = 'kaboom';
         message1.textContent = 'YES! PLUNKO!!';
+        console.log('Created message element:', message1);
         const message2 = document.createElement('span');
         message2.className = 'kaboom';
         message2.textContent = 'You got all 3 correct! Share your success!';
+        console.log('Created second message element:', message2);
         resultElement.appendChild(message1);
+        console.log('Appended first message element to resultElement:', resultElement);
         resultElement.appendChild(document.createElement('br'));
         resultElement.appendChild(message2);
+        console.log('Appended second message element to resultElement:', resultElement);
         resultElement.className = 'correct';
     } else {
         resultElement.textContent = "You didn't get all 3 correct. Better luck next time!";
