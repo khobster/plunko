@@ -112,6 +112,7 @@
     border-radius: 4px;
     font-size: 18px;
     font-family: 'Archivo Narrow', sans-serif;
+    display: block; /* Ensure it is displayed as a block */
 }
 
 .correct {
@@ -148,7 +149,6 @@
     margin-top: 5px;
     transition: background-color 0.3s;
     font-family: 'Archivo Narrow', sans-serif;
-    display: inline-block; /* Ensure buttons are inline */
 }
 
 #copyButton:hover, #returnButton:hover {
