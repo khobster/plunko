@@ -79,7 +79,7 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
 
 function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement, nextPlayerCallback, playerIndex, totalPlayers) {
     console.log('updateStreakAndGenerateSnippetURL called with:', { isCorrect, playerName, playerIndex, totalPlayers });
-    
+
     if (isCorrect) {
         correctStreakURL++;
         lastThreeCorrectURL.push(playerName);
@@ -88,8 +88,14 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
         }
         if (correctStreakURL === totalPlayers) {
             console.log('User got all 3 correct in URL play.');
-            resultElement.innerHTML = "<span class='kaboom'>YES! PLUNKO!!</span>";
-            console.log('resultElement.innerHTML set to:', resultElement.innerHTML);
+
+            const message = document.createElement('span');
+            message.className = 'kaboom';
+            message.textContent = 'YES! PLUNKO!!';
+            resultElement.appendChild(message);
+
+            console.log('resultElement appended with:', message);
+
             const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
             let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK : ${shareLink}`;
@@ -205,10 +211,19 @@ function startURLChallenge(playerNames) {
 function endURLChallenge(success) {
     const resultElement = document.getElementById('result');
     if (success) {
-        resultElement.innerHTML = "<span class='kaboom'>You got all 3 correct! Share your success!</span>";
+        resultElement.innerHTML = "";
+        const message1 = document.createElement('span');
+        message1.className = 'kaboom';
+        message1.textContent = 'YES! PLUNKO!!';
+        const message2 = document.createElement('span');
+        message2.className = 'kaboom';
+        message2.textContent = 'You got all 3 correct! Share your success!';
+        resultElement.appendChild(message1);
+        resultElement.appendChild(document.createElement('br'));
+        resultElement.appendChild(message2);
         resultElement.className = 'correct';
     } else {
-        resultElement.innerHTML = "You didn't get all 3 correct. Better luck next time!";
+        resultElement.textContent = "You didn't get all 3 correct. Better luck next time!";
         resultElement.className = 'incorrect';
     }
     const shareText = success ? "I got all 3 correct on PLUNKO!" : "I couldn't get all 3 correct on PLUNKO. Can you?";
