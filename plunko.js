@@ -201,7 +201,7 @@ function startURLChallenge(playerNames) {
 function endURLChallenge(success) {
     const resultElement = document.getElementById('result');
     if (success) {
-        resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span><br><span class='kaboom'>You got all 3 correct! Share your success!</span>";
+        resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span><br>You got all 3 correct! Share your success!";
         resultElement.className = 'correct';
     } else {
         resultElement.innerHTML = "You didn't get all 3 correct. Better luck next time!";
