@@ -78,6 +78,8 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
 }
 
 function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement, nextPlayerCallback, playerIndex, totalPlayers) {
+    console.log('updateStreakAndGenerateSnippetURL called with:', { isCorrect, playerName, playerIndex, totalPlayers });
+    
     if (isCorrect) {
         correctStreakURL++;
         lastThreeCorrectURL.push(playerName);
@@ -85,6 +87,7 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
             lastThreeCorrectURL.shift();
         }
         if (correctStreakURL === totalPlayers) {
+            console.log('User got all 3 correct in URL play.');
             resultElement.innerHTML = "<span class='kaboom'>YES! PLUNKO!!</span>";
             const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
@@ -199,6 +202,8 @@ function startURLChallenge(playerNames) {
 }
 
 function endURLChallenge(success) {
+    console.log('endURLChallenge called with:', { success });
+    
     const resultElement = document.getElementById('result');
     if (success) {
         resultElement.innerHTML = "<span class='kaboom'>YES! PLUNKO!!</span><br><span class='kaboom'>You got all 3 correct! Share your success!</span>";
