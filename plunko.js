@@ -58,7 +58,7 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
             resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
             const encodedPlayers = encodeURIComponent(lastThreeCorrectStandard.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK!<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK: ${shareLink}`;
+            let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK : ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'inline-block';
             document.getElementById('returnButton').style.display = 'inline-block';
@@ -78,8 +78,6 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
 }
 
 function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement, nextPlayerCallback, playerIndex, totalPlayers) {
-    console.log('updateStreakAndGenerateSnippetURL called with:', { isCorrect, playerName, playerIndex, totalPlayers });
-
     if (isCorrect) {
         correctStreakURL++;
         lastThreeCorrectURL.push(playerName);
@@ -87,15 +85,10 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
             lastThreeCorrectURL.shift();
         }
         if (correctStreakURL === totalPlayers) {
-            console.log('User got all 3 correct in URL play.');
-            const messageElement = document.createElement('span');
-            messageElement.className = 'kaboom';
-            messageElement.innerHTML = 'YES! PLUNKO!!';
-            resultElement.appendChild(messageElement);
-
+            resultElement.innerHTML = "<span class='kaboom'>YES! PLUNKO!!</span>";
             const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK: ${shareLink}`;
+            let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK : ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'inline-block';
             document.getElementById('returnButton').style.display = 'inline-block';
