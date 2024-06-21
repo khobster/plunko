@@ -74,7 +74,7 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
         resultElement.className = 'incorrect';
         wrongSound.play();
     }
-    setTimeout(nextPlayerCallback, 3000); // Show next player after a delay
+    setTimeout(nextPlayerCallback, 5000); // Show next player after a delay
 }
 
 function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement, nextPlayerCallback, playerIndex, totalPlayers) {
@@ -105,7 +105,7 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
             // Add share snippet and buttons
             const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK : ${shareLink}`;
+            let shareText = `3 in a row! That's a PLUNKO!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK : ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'inline-block';
             document.getElementById('returnButton').style.display = 'inline-block';
