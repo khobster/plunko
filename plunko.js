@@ -74,7 +74,7 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
         resultElement.className = 'incorrect';
         wrongSound.play();
     }
-    setTimeout(nextPlayerCallback, 5000); // Show next player after a delay
+    setTimeout(nextPlayerCallback, 3500); // Show next player after a delay
 }
 
 function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement, nextPlayerCallback, playerIndex, totalPlayers) {
