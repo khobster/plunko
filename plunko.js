@@ -58,7 +58,7 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
             resultElement.innerHTML = "<span class='kaboom'>PLUNKO!</span>";
             const encodedPlayers = encodeURIComponent(lastThreeCorrectStandard.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK : ${shareLink}`;
+            let shareText = `3 in a row! That's a PLUNK!<br>Players: ${lastThreeCorrectStandard.join(', ')}<br>Play PLUNK: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'inline-block';
             document.getElementById('returnButton').style.display = 'inline-block';
@@ -93,7 +93,6 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
         }
         if (correctStreakURL === totalPlayers) {
             console.log('User got all 3 correct in URL play.');
-            // Temporarily disable URL sharing logic
             setTimeout(() => {
                 const messageElement = document.createElement('span');
                 messageElement.className = 'kaboom';
@@ -102,10 +101,9 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
                 console.log('Appended message element to resultElement:', resultElement.innerHTML);
             }, 0);
 
-            // Add share snippet and buttons
             const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-            let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK : ${shareLink}`;
+            let shareText = `3 in a row! That's a PLUNK!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK: ${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
             document.getElementById('copyButton').style.display = 'inline-block';
             document.getElementById('returnButton').style.display = 'inline-block';
