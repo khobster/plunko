@@ -78,7 +78,13 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
 }
 
 function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement, nextPlayerCallback, playerIndex, totalPlayers) {
-    console.log('updateStreakAndGenerateSnippetURL called with:', { isCorrect, playerName, playerIndex, totalPlayers });
+    console.log('updateStreakAndGenerateSnippetURL called with:', {
+        isCorrect,
+        playerIndex,
+        playerName,
+        totalPlayers
+    });
+
     if (isCorrect) {
         correctStreakURL++;
         lastThreeCorrectURL.push(playerName);
@@ -87,26 +93,25 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
         }
         if (correctStreakURL === totalPlayers) {
             console.log('User got all 3 correct in URL play.');
-            // Ensure the message is added correctly
+            // Temporarily disable URL sharing logic
             setTimeout(() => {
-                console.log('Creating and appending YES! PLUNKO!! message.');
                 const messageElement = document.createElement('span');
                 messageElement.className = 'kaboom';
-                messageElement.textContent = 'YES! PLUNKO!!';
+                messageElement.innerHTML = 'YES! PLUNKO!!';
                 resultElement.appendChild(messageElement);
                 console.log('Appended message element to resultElement:', resultElement.innerHTML);
-
-                // Ensure other elements are updated after the message
-                const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
-                const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-                let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK : ${shareLink}`;
-                document.getElementById('shareSnippet').innerHTML = shareText;
-                document.getElementById('copyButton').style.display = 'inline-block';
-                document.getElementById('returnButton').style.display = 'inline-block';
-                document.getElementById('submitBtn').style.display = 'none';
-                correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
-                lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
             }, 0);
+
+            // Add share snippet and buttons
+            const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
+            const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
+            let shareText = `3 in a row! That's a PLUNK !<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK : ${shareLink}`;
+            document.getElementById('shareSnippet').innerHTML = shareText;
+            document.getElementById('copyButton').style.display = 'inline-block';
+            document.getElementById('returnButton').style.display = 'inline-block';
+            document.getElementById('submitBtn').style.display = 'none';
+            correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
+            lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
         } else {
             resultElement.innerHTML = "That's <span style='color: yellow;'>CORRECT!</span> Keep going!";
             resultElement.className = 'correct';
@@ -213,9 +218,7 @@ function startURLChallenge(playerNames) {
 function endURLChallenge(success) {
     const resultElement = document.getElementById('result');
     if (success) {
-        if (!resultElement.querySelector('.kaboom')) {
-            resultElement.innerHTML += "<br><span class='kaboom'>You got all 3 correct! Share your success!</span>";
-        }
+        resultElement.innerHTML += "<span class='kaboom'>You got all 3 correct! Share your success!</span>";
         resultElement.className = 'correct';
     } else {
         resultElement.innerHTML = "You didn't get all 3 correct. Better luck next time!";
