@@ -101,18 +101,16 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
             resultElement.appendChild(messageElement);
             console.log('Appended message element to resultElement:', resultElement.innerHTML);
             
-            // Add share snippet and buttons after a delay
-            setTimeout(() => {
-                const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
-                const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
-                let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
-                document.getElementById('shareSnippet').innerHTML = shareText;
-                document.getElementById('copyButton').style.display = 'inline-block';
-                document.getElementById('returnButton').style.display = 'inline-block';
-                document.getElementById('submitBtn').style.display = 'none';
-                correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
-                lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
-            }, 1000);
+            // Add share snippet and buttons immediately
+            const encodedPlayers = encodeURIComponent(lastThreeCorrectURL.join(','));
+            const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
+            let shareText = `3 in a row! That's a PLUNK🏀!<br>Players: ${lastThreeCorrectURL.join(', ')}<br>Play PLUNK🏀: ${shareLink}`;
+            document.getElementById('shareSnippet').innerHTML = shareText;
+            document.getElementById('copyButton').style.display = 'inline-block';
+            document.getElementById('returnButton').style.display = 'inline-block';
+            document.getElementById('submitBtn').style.display = 'none';
+            correctStreakURL = 0; // Reset the correct streak after achieving PLUNKO
+            lastThreeCorrectURL = []; // Clear the list of last three correct players after achieving PLUNKO
             
             correctSound.play();
         } else {
@@ -287,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('click', (e) => {
-        if (!tooltip.contains(e.target)) {
+        if (!tooltip contains(e.target)) {
             tooltip.classList.remove('active');
         }
     });
