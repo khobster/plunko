@@ -229,9 +229,9 @@ function endURLChallenge(success) {
         resultElement.innerHTML = "You didn't get all 3 correct. Better luck next time!";
         resultElement.className = 'incorrect';
     }
-    const shareText = success ? "I got all 3 correct on PLUNKO!" : "I couldn't get all 3 correct on PLUNKO. Can you?";
+    const shareText = success ? "I got all 3 correct on PLUNKO!" : "I couldn't get all 3 correct on PLUNK🏀. Can you?";
     const currentURL = window.location.href;
-    let shareSnippet = `${shareText}<br>Play PLUNKO: ${currentURL}`;
+    let shareSnippet = `${shareText}<br>${currentURL}`;
     document.getElementById('shareSnippet').innerHTML = shareSnippet;
     document.getElementById('copyButton').style.display = 'inline-block';
     document.getElementById('returnButton').style.display = 'inline-block';
