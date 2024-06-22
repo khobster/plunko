@@ -214,3 +214,8 @@
     50% {transform: scale(1.2);}
     100% {transform: scale(1);}
 }
+
+#snippetMessage {
+    font-family: 'Archivo Narrow', sans-serif;
+    font-weight: bold;
+}
