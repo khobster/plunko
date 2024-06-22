@@ -60,7 +60,7 @@ function updateStreakAndGenerateSnippetStandard(isCorrect, playerName, resultEle
             const shareLink = `https://khobster.github.io/plunko?players=${encodedPlayers}`;
             let shareText = `I challenge you to this PLUNK🏀:\n${shareLink}`;
             document.getElementById('shareSnippet').innerHTML = shareText;
-            document.getElementById('snippetMessage').innerHTML = 'Send it to your friends and throw down the proverbial gauntlet!';
+            document.getElementById('snippetMessage').innerHTML = 'Send it to your pals:';
             document.getElementById('snippetMessage').style.display = 'block';
             document.getElementById('copyButton').style.display = 'inline-block';
             document.getElementById('returnButton').style.display = 'inline-block';
@@ -111,7 +111,7 @@ function updateStreakAndGenerateSnippetURL(isCorrect, playerName, resultElement,
             let shareText = `I challenge you to this PLUNK🏀:\n${shareLink}`;
             setTimeout(() => {
                 document.getElementById('shareSnippet').innerHTML = shareText;
-                document.getElementById('snippetMessage').innerHTML = 'Send it to your friends and throw down the proverbial gauntlet!';
+                document.getElementById('snippetMessage').innerHTML = 'Send it to your pals:';
                 document.getElementById('snippetMessage').style.display = 'block';
                 document.getElementById('copyButton').style.display = 'inline-block';
                 document.getElementById('returnButton').style.display = 'inline-block';
@@ -237,7 +237,7 @@ function endURLChallenge(success) {
     const currentURL = window.location.href;
     let shareSnippet = `${shareText}<br>${currentURL}`;
     document.getElementById('shareSnippet').innerHTML = shareSnippet;
-    document.getElementById('snippetMessage').innerHTML = 'Send it to your friends and throw down the proverbial gauntlet!';
+    document.getElementById('snippetMessage').innerHTML = 'Send it to your pals:';
     document.getElementById('snippetMessage').style.display = 'block';
     document.getElementById('copyButton').style.display = 'inline-block';
     document.getElementById('returnButton').style.display = 'inline-block';
