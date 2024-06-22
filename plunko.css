@@ -112,7 +112,6 @@
     border-radius: 4px;
     font-size: 18px;
     font-family: 'Archivo Narrow', sans-serif;
-    display: block; /* Ensure it is displayed as a block */
 }
 
 .correct {
